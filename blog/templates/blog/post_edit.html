@@ -2,8 +2,10 @@
 {% block title %} Blog - Edit Post {% endblock title %}
 {% block content %}
 <h1>Edit Post</h1>
+{% if user.is_authenticated %}
 <form action="" method="post">{% csrf_token %}
         {{form.as_p}}
         <input type="submit" value="Edit">
 </form>
+{% endif %}
 {% endblock content %}
