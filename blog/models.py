@@ -9,24 +9,41 @@ from django.db.models.signals import post_save
 class PublishedManager(models.Manager):
     def get_queryset(self):
         return super(PublishedManager,self).get_queryset()\
-                                                .filter(status='publicado')
+                                                .filter(status='published')
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    published = models.DateTimeField(default=timezone.now)
+    created =   models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Category"
+        verbose_name_plural = "Categorys"
+        ordering = ('-created',)
+
+    def __str__(self):
+        return self.name
+
+    
 
 class Post(models.Model):
     STATUS  =   (
-        ('rascunho','Rascunho'),
-        ('publicado','Publicado'),
+        ('draft','draft'),
+        ('published','Published'),
     )
-    title  =   models.CharField(max_length=250)
-    slug    =   models.SlugField(max_length=250)#http://site.com/noticias/campeonato-braisleiro-2020/01/02/2020
+    title  =   models.CharField(verbose_name="Title",max_length=250)
+    slug    =   models.SlugField(max_length=250)
     author  =   models.ForeignKey(User,
                                     on_delete=models.CASCADE)
-    content =   models.TextField()
+    category = models.ManyToManyField(Category, related_name="get_post")
+    image   =   models.ImageField(upload_to="blog",blank=True,null=True)
+    content =   models.TextField(verbose_name="Content")
     published = models.DateTimeField(default=timezone.now)
     created =   models.DateTimeField(auto_now_add=True)
     changed =   models.DateTimeField(auto_now=True)
     status  =   models.CharField(max_length=10,
                                     choices=STATUS,
-                                    default='rascunhos')
+                                    default='drafts')
     objects = models.Manager()
     publish = PublishedManager()
 

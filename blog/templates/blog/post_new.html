@@ -1,11 +1,21 @@
 {% extends 'base.html' %}
+{% load bootstrap %}
 {% block title %} Blog - New Post {% endblock title %}
 {% block content %}
-<h1>New Post</h1>
+<div class="container justify-content-center" style="width: 100%">
+<div class="card">
+    <div class="card-header">Add new post</div>
+<div class="card-body">
 {% if user.is_authenticated %}
 <form action="" method="post">{% csrf_token %}
-        {{form.as_p}}
-        <input type="submit" value="Save">
+    <div class="form-label-group">
+        {{form|bootstrap}}
+        </div>
+        <button class="btn btn-primary" type="submit" value="Save">Save</button>
 </form>
+</div>
+</div>
+</div>
+<br>
 {% endif %}
 {% endblock content %}

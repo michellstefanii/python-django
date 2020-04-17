@@ -1,11 +1,19 @@
 {% extends 'base.html' %}
-{% block title %} Blog - Edit Post {% endblock title %}
+{% load bootstrap %}
+{% block title %} Blog - New Post {% endblock title %}
 {% block content %}
-<h1>Edit Post</h1>
+<div class="container justify-content-center" style="width: 100%">
+<div class="card">
+    <div class="card-header">Add new post</div>
+<div class="card-body">
 {% if user.is_authenticated %}
 <form action="" method="post">{% csrf_token %}
-        {{form.as_p}}
-        <input type="submit" value="Edit">
+        {{form|bootstrap}}
+        <button class="btn btn-dark" value="Edit">Edit</button>
 </form>
+</div>
+</div>
+</div>
+<br>
 {% endif %}
 {% endblock content %}
