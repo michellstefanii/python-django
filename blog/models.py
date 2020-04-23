@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils.text import slugify
 from django.db.models.signals import post_save
+from ckeditor.fields import RichTextField
 
 class PublishedManager(models.Manager):
     def get_queryset(self):
@@ -37,7 +38,7 @@ class Post(models.Model):
                                     on_delete=models.CASCADE)
     category = models.ManyToManyField(Category, related_name="get_post")
     image   =   models.ImageField(upload_to="blog",blank=True,null=True)
-    content =   models.TextField(verbose_name="Content")
+    content =   RichTextField(verbose_name="Content")
     published = models.DateTimeField(default=timezone.now)
     created =   models.DateTimeField(auto_now_add=True)
     changed =   models.DateTimeField(auto_now=True)

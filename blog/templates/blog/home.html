@@ -16,7 +16,7 @@
               {{post.title}}
             </h2>
             <h3 class="post-subtitle">
-            {{post.content}}
+                {{post.content|safe|truncatechars:"200"}}
             </h3>
           </a>
           <p class="post-meta">Posted by
