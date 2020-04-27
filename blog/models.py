@@ -29,7 +29,7 @@ class Category(models.Model):
 
 class Post(models.Model):
     STATUS  =   (
-        ('draft','draft'),
+        ('draft','Draft'),
         ('published','Published'),
     )
     title  =   models.CharField(verbose_name="Title",max_length=250)

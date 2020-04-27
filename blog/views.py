@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.views.generic.edit import CreateView
 from . models import Post
+from .forms import Postform
 
 # Create your views here.
 
@@ -20,8 +21,14 @@ class BlogDetailView(DetailView):
 class BlogCreateView(SuccessMessageMixin, CreateView):
         model = Post
         template_name = 'blog/post_new.html'
-        fields = ('title','content','author')
+        form_class = Postform
         success_message = "%(field)s was created successfully"
+
+        def form_valid(self, form):
+                obj = form.save(commit=False)
+                obj.author = self.request.user
+                obj.save()
+                return super().form_valid(form)
 
         def get_success_message(self, cleaned_data):
                 return self.success_message % dict(
@@ -31,9 +38,16 @@ class BlogCreateView(SuccessMessageMixin, CreateView):
 
 class BlogUpdateView(SuccessMessageMixin, UpdateView):
         model = Post
+        form_class = Postform
         template_name = 'blog/post_edit.html'
-        fields = ('title','content')
+        #fields = ('title','content')
         success_message = "%(field)s was edited successfully"
+
+        def form_valid(self, form):
+                obj = form.save(commit=False)
+                obj.author = self.request.user
+                obj.save()
+                return super().form_valid(form)       
 
         def get_success_message(self, cleaned_data):
                 return self.success_message % dict(

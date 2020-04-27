@@ -7,7 +7,7 @@
     <div class="card-header">Add new post</div>
 <div class="card-body">
 {% if user.is_authenticated %}
-<form action="" method="post">{% csrf_token %}
+<form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
     <div class="form-label-group">
         {{form|bootstrap}}
         </div>
