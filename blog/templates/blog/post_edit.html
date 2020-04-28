@@ -1,15 +1,32 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load bootstrap %}
 {% block title %} Blog - New Post {% endblock title %}
+{% block header %}
+  <header class="masthead" style="background-image: url('{% static 'img/home-bg.jpg' %}')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>Clean Blog</h1>
+            <span class="subheading">A Blog Theme by Start Bootstrap</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+{% endblock header %}
 {% block content %}
 <div class="container justify-content-center" style="width: 100%">
 <div class="card">
-    <div class="card-header">Add new post</div>
+    <div class="card-header">Edit post</div>
 <div class="card-body">
 {% if user.is_authenticated %}
 <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
         {{form|bootstrap|safe}}
-        <button class="btn btn-dark" value="Edit">Edit</button>
+        <button class="btn btn-danger" value="Edit">Edit</button>
+         <a class="btn btn-dark" href="/" role="button">Cancel</a>
 </form>
 </div>
 </div>

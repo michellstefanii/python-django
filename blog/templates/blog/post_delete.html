@@ -1,9 +1,25 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %} Blog - Delete Post {% endblock title %}
+{% block header %}
+  <header class="masthead" style="background-image: url('{% static 'img/home-bg.jpg' %}')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>Clean Blog</h1>
+            <span class="subheading">A Blog Theme by Start Bootstrap</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+{% endblock header %}
 {% block content %}
 <h1>Delete Post</h1>
 <form action="" method="post">{% csrf_token %}
         <p>You really want to delete the post "{{object.title}}" ?</p>
-        <input type="submit" value="Confirm">
-</form>
+        <input type="submit" value="Confirm" class="btn btn-danger">
+</form><br>
 {% endblock content %}

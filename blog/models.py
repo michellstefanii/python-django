@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.db.models.signals import post_save
 from ckeditor.fields import RichTextField
+from django.utils.html import mark_safe
 
 class PublishedManager(models.Manager):
     def get_queryset(self):
@@ -36,8 +37,7 @@ class Post(models.Model):
     slug    =   models.SlugField(max_length=250)
     author  =   models.ForeignKey(User,
                                     on_delete=models.CASCADE)
-    category = models.ManyToManyField(Category, related_name="get_post")
-    image   =   models.ImageField(upload_to="blog",blank=True,null=True)
+    category = models.ManyToManyField(Category, related_name="get_posts")
     content =   RichTextField(verbose_name="Content")
     published = models.DateTimeField(default=timezone.now)
     created =   models.DateTimeField(auto_now_add=True)
@@ -45,6 +45,7 @@ class Post(models.Model):
     status  =   models.CharField(max_length=10,
                                     choices=STATUS,
                                     default='drafts')
+    image   =   models.ImageField(upload_to="blog",blank=True,null=True)
     objects = models.Manager()
     publish = PublishedManager()
 
@@ -56,6 +57,11 @@ class Post(models.Model):
 
     def get_absolute_url_delete(self):
         return reverse('post_delete', args=[self.pk])
+    @property
+    def view_image(self):
+        return mark_safe('<img src="%s" width="400px" height="400px" />'%self.image.url)
+        view_image.short_description = "Image attached"
+        view_image.allow.tags = True
 
     class Meta:
         ordering = ('-published',)

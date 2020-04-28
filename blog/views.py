@@ -6,6 +6,13 @@ from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.views.generic.edit import CreateView
 from . models import Post
 from .forms import Postform
+from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+@login_required
+def hello(request):
+        return HttpResponse('Hello World')
 
 # Create your views here.
 
@@ -18,7 +25,7 @@ class BlogDetailView(DetailView):
         template_name = 'blog/post_detail.html'
         #context_object_name = 'custom'
 
-class BlogCreateView(SuccessMessageMixin, CreateView):
+class BlogCreateView(LoginRequiredMixin,SuccessMessageMixin, CreateView):
         model = Post
         template_name = 'blog/post_new.html'
         form_class = Postform
@@ -36,7 +43,8 @@ class BlogCreateView(SuccessMessageMixin, CreateView):
                 field=self.object.title,
                 ) 
 
-class BlogUpdateView(SuccessMessageMixin, UpdateView):
+
+class BlogUpdateView(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
         model = Post
         form_class = Postform
         template_name = 'blog/post_edit.html'
@@ -55,7 +63,8 @@ class BlogUpdateView(SuccessMessageMixin, UpdateView):
                 field=self.object.title,
                 )
 
-class BlogDeleteView(SuccessMessageMixin, DeleteView):
+
+class BlogDeleteView(LoginRequiredMixin,SuccessMessageMixin, DeleteView):
         model = Post
         template_name = 'blog/post_delete.html'
         success_url = reverse_lazy('home')
