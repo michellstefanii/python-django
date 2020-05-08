@@ -1,10 +1,43 @@
 {% extends "base.html" %}
-
+{% load bootstrap %}
+{% load static %}
+{% block title %} Signup {% endblock title %}
+{% block header %}
+  <header class="masthead" style="background-image: url('{% static 'img/home-bg.jpg' %}')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>Clean Blog</h1>
+            <span class="subheading">A Blog Theme by Start Bootstrap</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+{% endblock header %}
 {% block content %}
-<form method="post" action=".">
-  {% csrf_token %}
-  {{ form.as_p }}
-
-  <input type="submit" value="Signup" />
-</form>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+      <form method="POST" action=".">{% csrf_token %}
+      {{form|bootstrap}}
+                <br>
+                {% if success %}
+          <div id="success">
+              Signup success!
+          </div>
+                {% elif error %}
+          <div id="fail">
+              Signup Error!
+          </div>
+                {% endif %}
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary" id="sendMessageButton">Signup</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 {% endblock %}
